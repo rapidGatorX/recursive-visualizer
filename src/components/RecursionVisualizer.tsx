@@ -18,15 +18,19 @@ export const RecursionVisualizer = () => {
     setIsPlaying(false);
   };
 
-  // Auto-scroll effect
+  // Enhanced auto-scroll effect that works for both phases
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: containerRef.current.scrollHeight,
+      const container = containerRef.current;
+      const scrollTarget = phase === "forward" ? container.scrollHeight : 
+        Math.max(0, (container.scrollHeight - container.clientHeight) * (currentLevel / MAX_DEPTH));
+      
+      container.scrollTo({
+        top: scrollTarget,
         behavior: 'smooth'
       });
     }
-  }, [boxes]);
+  }, [boxes, phase, currentLevel]);
 
   useEffect(() => {
     if (!isPlaying) return;
