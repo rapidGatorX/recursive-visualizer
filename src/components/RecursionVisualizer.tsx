@@ -64,7 +64,7 @@ export const RecursionVisualizer = () => {
   }, [isPlaying, currentLevel, phase]);
 
   return (
-    <div className="flex flex-col items-center gap-8 p-8">
+    <div className="flex flex-col items-center gap-8 h-[calc(100vh-12rem)]">
       <div className="flex gap-4">
         <Button
           onClick={() => setIsPlaying(!isPlaying)}
@@ -80,7 +80,7 @@ export const RecursionVisualizer = () => {
       
       <div 
         ref={containerRef}
-        className="flex flex-col items-center gap-4 max-h-[70vh] overflow-y-auto p-4"
+        className="flex-1 w-full flex flex-col items-center gap-4 overflow-y-auto px-4 py-2"
       >
         {boxes.map((box, index) => (
           <Box
