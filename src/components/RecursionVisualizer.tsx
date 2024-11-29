@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Box } from "./Box";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -9,6 +9,7 @@ export const RecursionVisualizer = () => {
   const [currentLevel, setCurrentLevel] = useState(0);
   const [phase, setPhase] = useState<"forward" | "backward">("forward");
   const MAX_DEPTH = 10;
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const reset = () => {
     setBoxes([]);
@@ -16,6 +17,16 @@ export const RecursionVisualizer = () => {
     setPhase("forward");
     setIsPlaying(false);
   };
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [boxes]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -67,7 +78,10 @@ export const RecursionVisualizer = () => {
         </Button>
       </div>
       
-      <div className="flex flex-col items-center gap-4">
+      <div 
+        ref={containerRef}
+        className="flex flex-col items-center gap-4 max-h-[70vh] overflow-y-auto p-4"
+      >
         {boxes.map((box, index) => (
           <Box
             key={index}
