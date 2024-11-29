@@ -27,7 +27,9 @@ export const RecursionVisualizer = () => {
           setCurrentLevel(prev => prev + 1);
           if (currentLevel + 1 === MAX_DEPTH) {
             setPhase("backward");
-            toast("Maximum depth reached! Starting backtrack...");
+            toast("Maximum depth reached (10 boxes)! Starting backtrack...", {
+              duration: 2000,
+            });
           }
         }
       } else {
@@ -40,7 +42,9 @@ export const RecursionVisualizer = () => {
           setCurrentLevel(prev => prev - 1);
         } else {
           setIsPlaying(false);
-          toast("Visualization complete!");
+          toast("Visualization complete!", {
+            duration: 2000,
+          });
         }
       }
     }, 800);
@@ -54,15 +58,16 @@ export const RecursionVisualizer = () => {
         <Button
           onClick={() => setIsPlaying(!isPlaying)}
           variant="outline"
+          className="min-w-[100px]"
         >
           {isPlaying ? "Pause" : "Play"}
         </Button>
-        <Button onClick={reset} variant="outline">
+        <Button onClick={reset} variant="outline" className="min-w-[100px]">
           Reset
         </Button>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-4 max-w-2xl">
+      <div className="flex flex-col items-center gap-4">
         {boxes.map((box, index) => (
           <Box
             key={index}
@@ -74,8 +79,9 @@ export const RecursionVisualizer = () => {
         ))}
       </div>
       
-      <div className="text-lg font-semibold">
-        Current Depth: {currentLevel} / {MAX_DEPTH}
+      <div className="text-lg font-semibold flex items-center gap-2">
+        <span>Boxes Created: {currentLevel}</span>
+        <span className="text-primary">{currentLevel === MAX_DEPTH && phase === "backward" ? "(Max Depth Reached!)" : ""}</span>
       </div>
     </div>
   );
